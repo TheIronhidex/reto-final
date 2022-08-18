@@ -1,0 +1,17 @@
+---
+- hosts: host1
+  become: true
+  vars_files:
+  - ansible/variable.yml
+
+  - name: Pull image for launching server
+    docker_image:
+      image: theironhidex/"{{ job_base_name }}"-app:"{{ build_number }}"
+      
+  - name: Launch Container Image to Start Web Server
+    docker_container:
+      name: webserver
+      image: theironhidex/"{{ job_base_name }}"-app:"{{ build_number }}"
+      state: started
+      ports:
+      - "80:80"

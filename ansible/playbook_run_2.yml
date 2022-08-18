@@ -1,0 +1,30 @@
+---
+- hosts: host2
+  become: true
+  vars_files:
+  - ansible/variable.yml
+
+  - name: Log into DockerHub
+    docker_login:
+      username: "{{ docker_user }}"
+      password: "{{ docker_pass }}"
+      email: ironhidex1@gmail.com
+
+  - name: Build image 2 and push it to a private repo
+    docker_image:
+      path: ./ansible/dockerfile/dockerfile
+      name: theironhidex/"{{ job_base_name }}"-webserver
+      tag: "{{ build_number }}"
+      push: yes
+
+  - name: Pull image for launching server
+    docker_image:
+      image: theironhidex/"{{ job_base_name }}"-webserver:"{{ build_number }}"
+      
+  - name: Launch Container Image to Start Web Server
+    docker_container:
+      name: webserver
+      image: theironhidex/"{{ job_base_name }}"-webserver:"{{ build_number }}"
+      state: started
+      ports:
+      - "80:80"

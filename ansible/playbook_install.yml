@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: "Update packages"
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: "Install docker developer version (I)"
+    shell: curl -fsSL https://get.docker.com -o get-docker.sh
+
+  - name: "Install docker developer version (II)"
+    shell: sh get-docker.sh
+
+  - name: "Check that docker is active"
+      name: docker
+      state: started
+      enabled: yes
