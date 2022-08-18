@@ -12,7 +12,7 @@ pipeline {
         stage ("Create dockerfile") {
             steps {
                 sh '''
-                    cat <<EOT > dockerfile
+                    cat << 'EOT' >> dockerfile
                     FROM node:12-alpine
                     RUN apk add --no-cache python2 g++ make
                     WORKDIR /app
