@@ -1,7 +1,7 @@
 pipeline {
     environment {
 	REGION = 'eu-west-3'
-    DOCKER_REPO = 'theironhidex'
+    	DOCKER_REPO = 'theironhidex'
       }
 
  agent any
@@ -9,20 +9,6 @@ pipeline {
        terraform 'terraform20803'
     }    
     stages {
-        stage ("Create dockerfile") {
-            steps {
-                sh '''
-                    cat << 'EOT' >> dockerfile
-                    FROM node:12-alpine
-                    RUN apk add --no-cache python2 g++ make
-                    WORKDIR /app
-                    COPY . .
-                    RUN yarn install --production
-                    CMD ["node", "src/index.js"]
-                    EXPOSE 80
-                    EOT
-                '''}
-            }
         stage ("Build Image 1") {
             steps {
                 sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} ."
