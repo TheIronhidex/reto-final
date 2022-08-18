@@ -76,15 +76,8 @@ resource "aws_security_group" "sg_22" {
 }
 
 ##Launching instance
-resource "aws_instance" "testInstance01" { 
-  ami                    = "${var.instance_ami}"
-  instance_type          = "${var.instance_type}"
-  subnet_id              = "${aws_subnet.subnet_public.id}"
-  vpc_security_group_ids = ["${aws_security_group.sg_22.id}"]
-  key_name               = "jose-ssh" 
-}
-
-resource "aws_instance" "testInstance02" { 
+resource "aws_instance" "testInstance" {
+  count                  = 2
   ami                    = "${var.instance_ami}"
   instance_type          = "${var.instance_type}"
   subnet_id              = "${aws_subnet.subnet_public.id}"
