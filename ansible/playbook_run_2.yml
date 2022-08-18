@@ -12,7 +12,7 @@
 
   - name: Build image 2 and push it to a private repo
     docker_image:
-      path: ./ansible/dockerfile/dockerfile
+      path: ./ansible/dockerfile
       name: theironhidex/"{{ job_base_name }}"-webserver
       tag: "{{ build_number }}"
       push: yes
