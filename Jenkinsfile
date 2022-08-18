@@ -23,7 +23,6 @@ pipeline {
                     EOT
                 '''}
             }
-        }
         stage ("Build Image 1") {
             steps {
                 sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} ."
@@ -74,11 +73,11 @@ pipeline {
                 sh "echo -e build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} >> variable.yml"
 	        }
         }	
-	//stage('Wait 3 minutes') {
-            //steps {
+	stage('Wait 3 minutes') {
+            steps {
                 //sleep time:3, unit: 'MINUTES'
-            //}
-        //}
+            }
+        }
 	    stage ("Ansible install docker") {
             steps {
                 ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_docker.yml'
