@@ -45,6 +45,7 @@ pipeline {
         stage('terraform Init') {
             steps{
                 dir("./terraform/") {sh 'terraform init'
+		}
             }
         }     
         stage('terraform apply') {
@@ -75,7 +76,7 @@ pipeline {
         }	
 	stage('Wait 3 minutes') {
             steps {
-                //sleep time:3, unit: 'MINUTES'
+                sleep time:3, unit: 'MINUTES'
             }
         }
 	    stage ("Ansible install docker") {
@@ -88,10 +89,10 @@ pipeline {
                 ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_1.yml'
             }
         }             
-    stage ("Ansible run image in instance 2")
-        steps {
-            withCredentials([usernamePassword(credentialsId: 'docker-hub-jose', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-                ansiblePlaybook(
+	stage ("Ansible run image in instance 2") {
+            steps {
+               withCredentials([usernamePassword(credentialsId: 'docker-hub-jose', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
+                 ansiblePlaybook(
                     become: true,
                     colorized: true,
                     extras: '-v',
@@ -106,20 +107,21 @@ pipeline {
                     ]
                 )
             }
-        }              
-    stage('Destroy infrastructure?') {
+        }
+    }		    
+    	stage('Destroy infrastructure?') {
             steps{
                 input "Proceed destroying the infrastructure?"
             }
         }        	    
 	stage('terraform destroy') {
             steps{
-		        withCredentials([
-		            aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+		withCredentials([
+		    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh "terraform destroy --auto-approve"
 		    }
-	    }
-	}
+	        }
+	   }
 	    
 	    
     }
