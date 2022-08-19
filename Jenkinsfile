@@ -62,7 +62,7 @@ pipeline {
         }
 	    stage ("Ansible install docker") {
             steps {dir("./ansible/") {
-                ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_docker.yml'
+                ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install.yml'
             }
 	  }	   
         }
