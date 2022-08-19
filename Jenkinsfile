@@ -114,7 +114,12 @@ pipeline {
             steps{
 		withCredentials([
 		    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {dir("./terraform/") {
-                    sh "terraform destroy --auto-approve"
+                      sh """
+			terraform destroy -var=\"region=${env.REGION}\" \
+                	-var=\"access_key=${AWS_ACCESS_KEY_ID}\" \
+                	-var=\"secret_key=${AWS_SECRET_ACCESS_KEY}\" \
+                	--auto-approve
+                   	"""
 		    }
 	           }
 	         }
