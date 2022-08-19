@@ -54,11 +54,12 @@ pipeline {
 	stage('Input of new variables') {
             steps{dir("./ansible/") {
 		sh """
-		cat > variable.yml <<EOL
+		cat > temp2.txt <<EOL
 		build_number: ${BUILD_NUMBER}
 		job_base_name: ${JOB_BASE_NAME}
 		EOL
 		"""
+		sh "sed -n '1,2p;3q' temp2.txt > variables.yml"    
 		sh "cat variable.yml"
 		sh "cat inventory.ini"
 	        }
