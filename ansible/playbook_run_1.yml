@@ -1,8 +1,6 @@
 ---
-- hosts: host1
+- hosts: all[0]
   become: true
-  vars_files:
-  - ansible/variable.yml
 
   - name: Pull image for launching server
     docker_image:
