@@ -3,7 +3,7 @@
   become: true
 
   - name: "Pull image for launching server"
-    shell: docker pull theironhidex/"{{ job_base_name }}"-app:"{{ build_number }}"
+    shell: docker pull "{{ docker_repo }}"/"{{ job_base_name }}"-app:"{{ build_number }}"
     
   - name: "Launch container image to start app"
     shell: docker run -d -p80:80 "{{ job_base_name }}"-app:"{{ build_number }}"
