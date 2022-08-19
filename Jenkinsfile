@@ -55,15 +55,7 @@ pipeline {
             steps{dir("./ansible/") {
                 sh "echo build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} > variable.yml"
 		sh "cat variable.yml"
-	        }
-	    }
-        }
-	stage('Format inventory') {
-            steps{dir("./ansible/") {
-		sh """#!/bin/bash
-		sed -i '1d' inventory.ini
-		sed -i '$d' inventory.ini
-	        """
+		sh "cat inventory.ini"
 	        }
 	    }
         }	    
