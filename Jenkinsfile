@@ -45,7 +45,7 @@ pipeline {
                 --auto-approve
                    """
 		script {
-		  IP_EC2 = sh (script: "terraform output public_ip", returnStdout:true).trim()
+		  IP_EC2 = sh (script: "terraform output", returnStdout:true).trim()
 	                  }
 		sh "echo ${IP_EC2} > inventory.ini"
 		sh "cat inventory.ini"
