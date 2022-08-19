@@ -13,8 +13,3 @@
 
   - name: "Install docker developer version (II)"
     shell: sh get-docker.sh
-
-  - name: "Check that docker is active"
-      name: docker
-      state: started
-      enabled: yes
