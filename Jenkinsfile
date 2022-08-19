@@ -53,7 +53,12 @@ pipeline {
 	    }	    
 	stage('Input of new variables') {
             steps{dir("./ansible/") {
-                sh "echo build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} > variable.yml"
+		sh """
+		cat > variable.yml <<EOL
+		build_number: ${BUILD_NUMBER}
+		job_base_name: ${JOB_BASE_NAME}
+		EOL
+		"""
 		sh "cat variable.yml"
 		sh "cat inventory.ini"
 	        }
