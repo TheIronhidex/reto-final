@@ -56,9 +56,9 @@ pipeline {
                     }   
 	        }
 	    }	    	    
-	stage('Wait 30 seconds') {
+	stage('Wait 2 minutes') {
             steps {
-                sleep time:2, unit: 'SECONDS'
+                sleep time:2, unit: 'MINUTES'
             }
         }
 	stage ("Ansible install packages") {
