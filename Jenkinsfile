@@ -11,8 +11,8 @@ pipeline {
     stages {
         stage ("Build Image 1") {
 		steps {dir("./app/"){
-                  sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} Dockerfile.app"
-		  sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} Dockerfile.web"
+                  sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} app/dockerfile"
+		  sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-webserver:${BUILD_NUMBER} web/dockerfile"
 		}
             }
         }
