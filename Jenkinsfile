@@ -57,7 +57,7 @@ pipeline {
         }	
 	stage('Wait 3 minutes') {
             steps {
-                sleep time:3, unit: 'MINUTES'
+                sleep time:2, unit: 'SECONDS'
             }
         }
 	    stage ("Ansible install docker") {
