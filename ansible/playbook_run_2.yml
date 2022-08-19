@@ -1,4 +1,3 @@
----
 - hosts: groups['servers'][1]
   become: true
   tasks:
