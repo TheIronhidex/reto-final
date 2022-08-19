@@ -48,10 +48,10 @@ pipeline {
 		sh "sed -n '2,3p;4q' temp.txt >> inventory.ini"	    
 		sh "cat inventory.ini"
 	        sh "mv inventory.ini /var/lib/jenkins/workspace/jose/reto-final@2/ansible"	    
-		        }
 		script {
 		  HOST1= sh (script: "sed '2q;d' temp.txt", returnStdout:true).trim()
 		  HOST2= sh (script: "sed '3q;d' temp.txt", returnStdout:true).trim()	
+				}
 	                  }																  
                     }   
 	        }
