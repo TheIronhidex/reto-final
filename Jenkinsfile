@@ -93,7 +93,9 @@ pipeline {
                     playbook: 'playbook_run_2.yml',
                     extraVars: [
                         user: ${docker_user},
-                        pass: ${docker_pass}
+                        pass: ${docker_pass},
+			build_number: ${BUILD_NUMBER},
+                        job_base_name: ${JOB_BASE_NAME}    
                     ]
                 )
             }
