@@ -3,28 +3,39 @@
   become: true
 
   tasks:
-    - name: Update apt repo and cache on all Debian/Ubuntu boxes
-      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-
-    - name: Upgrade all packages on servers
-      apt: upgrade=dist force_apt_get=yes
-
-    - name: Check if a reboot is needed on all servers
-      register: reboot_required_file
-      stat: path=/var/run/reboot-required get_md5=no
-
-    - name: Reboot the box if kernel updated
-      reboot:
-        msg: "Reboot initiated by Ansible for kernel updates"
-        connect_timeout: 5
-        reboot_timeout: 300
-        pre_reboot_delay: 0
-        post_reboot_delay: 30
-        test_command: uptime
-      when: reboot_required_file.stat.exists
+    - name: "Update packages"
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: "Install apt-transport-https"
+      apt:
+        name: ['apt-transport-https']
+        state: latest
+    - name: "Install ca-certificatess"
+      apt:
+        name: ['ca-certificates']
+        state: latest
+    - name: "Install curl"
+      apt:
+        name: ['curl']
+        state: latest
+    - name: "Install software-properties-common"
+      apt:
+        name: ['software-properties-common']
+        state: latest
+     
+    - name: Get docker key
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       
-    - name: Install docker developer version (I)
-      shell: curl -fsSL https://get.docker.com -o get-docker.sh
-
-    - name: Install docker developer version (II)
-      shell: sh get-docker.sh
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: "Update packages"
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: "Install Docker"
+      apt:
+          name: ['docker-ce']
+          state: latest
