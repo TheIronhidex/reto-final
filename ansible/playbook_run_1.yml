@@ -1,4 +1,3 @@
----
 - hosts: ['servers'][0]
   become: true
   tasks:
