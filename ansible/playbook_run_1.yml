@@ -1,5 +1,5 @@
 ---
-- hosts: all[0]
+- hosts: groups['all'][0]
   become: true
 
   - name: Pull image for launching server
