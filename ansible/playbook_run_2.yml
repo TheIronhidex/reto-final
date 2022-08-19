@@ -6,7 +6,7 @@
     shell: docker login -u "{{ user }}" -p "{{ pass }}"
     
   - name: "Build image 2"
-    shell: docker build -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}" /var/lib/jenkins/workspace/jose/reto-final@2/ansible/dockerfile
+    shell: docker build . -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
     
   - name: "Push image 2 to a private repo"
     shell: docker push "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
