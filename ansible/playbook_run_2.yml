@@ -3,7 +3,7 @@
   tasks:
 
   - name: "Log into DockerHub"
-    shell: docker login -u "{{ docker_user }}" -p "{{ docker_pass }}"
+    shell: docker login -u "{{ user }}" -p "{{ pass }}"
     
   - name: "Build image 2"
     shell: docker build -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
