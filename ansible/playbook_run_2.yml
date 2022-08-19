@@ -5,15 +5,26 @@
   - name: "Log into DockerHub"
     shell: docker login -u "{{ user }}" -p "{{ pass }}"
     
-  - name: "Build image 2 test"
+  - name: Create alternative dockerfile
     ignore_errors: yes
-    shell: docker build -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver_test:"{{ build_number }}" ~/web/dockerfile
+    shell:
+      cmd: |
+        cat > dockerfile << EOF
+        FROM nginx:latest
+        MAINTAINER ironhidex1@gmail.com
+        EOF
+      args:
+        executable: /bin/zsh    
     
-  - name: "Push image 2 to a private repo"
+  - name: "Build test image 2 test"
+    ignore_errors: yes
+    shell: docker build -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver_test:"{{ build_number }}" .
+    
+  - name: "Push test image 2 to a private repo"
     ignore_errors: yes
     shell: docker push "{{ docker_repo }}"/"{{ job_base_name }}"-webserver_test:"{{ build_number }}"
     
-  - name: "Launch container image to start app"
+  - name: "Launch test container image to start app"
     ignore_errors: yes
     shell: docker run -d -p80:80 "{{ docker_repo }}"/"{{ job_base_name }}"-webserver_test:"{{ build_number }}"
     
@@ -21,4 +32,4 @@
     shell: docker pull "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
     
   - name: "Launch container image to start app"
-    shell: docker run -d -p80:80 "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
+    shell: docker run -d -p81:80 "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
