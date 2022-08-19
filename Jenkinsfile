@@ -47,7 +47,6 @@ pipeline {
 		sh "terraform output > inventory.ini"
 		sh "sed '1d' inventory.ini"
 		sh "sed '$d' inventory.ini"	    
-		sh "cat inventory.ini"
 	        sh "mv inventory.ini ~/ansible"	    
 		        }
                     }   
