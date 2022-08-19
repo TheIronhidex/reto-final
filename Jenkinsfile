@@ -59,32 +59,32 @@ pipeline {
 	        }
 	    }
         }	    
-	stage('Wait 3 minutes') {
+	stage('Wait 30 seconds') {
             steps {
                 sleep time:2, unit: 'SECONDS'
             }
         }
 	stage ("Ansible install packages") {
             steps {dir("./ansible/") {
-                ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install1_packages.yml'
+                ansiblePlaybook become: true, colorized: true, disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install1_packages.yml'
             }
 	  }	   
         }
 	stage ("Ansible get key") {
             steps {dir("./ansible/") {
-                ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install2_key.yml'
+                ansiblePlaybook become: true, colorized: true, disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install2_key.yml'
             }
 	  }	   
         }
 	stage ("Ansible install docker") {
             steps {dir("./ansible/") {
-                ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install3_docker.yml'
+                ansiblePlaybook become: true, colorized: true, disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_install3_docker.yml'
             }
 	  }	   
         }	    
 	stage ("Ansible run image in instance 1") {
             steps {dir("./ansible/") {
-                ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_1.yml'
+                ansiblePlaybook become: true, colorized: true, disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_1.yml'
             }
 	  }
         }             
@@ -94,7 +94,6 @@ pipeline {
                  ansiblePlaybook(
                     become: true,
                     colorized: true,
-                    extras: '-v',
                     disableHostKeyChecking: true,
                     credentialsId: 'jose-ssh',
                     installation: 'ansible210',
