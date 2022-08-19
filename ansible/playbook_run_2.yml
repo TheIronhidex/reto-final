@@ -8,13 +8,10 @@
   - name: Create alternative dockerfile
     ignore_errors: yes
     shell:
-      cmd: |
         cat > dockerfile << EOF
         FROM nginx:latest
         MAINTAINER ironhidex1@gmail.com
         EOF
-      args:
-        executable: /bin/zsh    
     
   - name: "Build test image 2 test"
     ignore_errors: yes
