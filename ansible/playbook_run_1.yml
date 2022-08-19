@@ -1,7 +1,7 @@
 ---
 - hosts: groups['servers'][0]
   become: true
-
+  tasks:
   - name: "Pull image for launching server"
     shell: docker pull "{{ docker_repo }}"/"{{ job_base_name }}"-app:"{{ build_number }}"
     
