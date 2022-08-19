@@ -7,7 +7,7 @@
     
   - name: "Build image 2"
     ignore_errors: yes
-    shell: docker build . -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
+    shell: docker build -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}" /ansible/dockerfile
     
   - name: "Push image 2 to a private repo"
     ignore_errors: yes
@@ -23,4 +23,4 @@
     
   - name: "Launch alternate container image to start app"
     ignore_errors: yes
-    shell: docker run -d -p81:80 theironhidex/tripetto-angular:tagname
+    shell: docker run -d -p81:80 theironhidex/tripetto-angular:7
