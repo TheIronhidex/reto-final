@@ -17,11 +17,13 @@
         name: ['software-properties-common']
         state: latest
         
-    - name: Get GPG
+    - name: "Get GPG"
       shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
       
-    - name: "Add Repository"
-      shell:  add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable\"
+    - name: "Add Docker Repository"
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
       
     - name: "Update packages"
       apt:
