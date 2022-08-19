@@ -17,11 +17,8 @@
         name: ['software-properties-common']
         state: latest
         
-    - name: "Get GPG I"
-      shell: mkdir -p /etc/apt/keyrings
-      
-    - name: "Get GPG II"
-      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    - name: Get GPG
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
       
     - name: "Add Repository"
       shell:  add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable\"
