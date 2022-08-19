@@ -45,10 +45,14 @@ pipeline {
                 --auto-approve
                    """
 		sh "terraform output > temp.txt"
-		sh "sed -n '2,3p;4q' temp.txt >> inventory.ini"
+		sh "sed -n '2,3p;4q' temp.txt >> inventory.ini"	    
 		sh "cat inventory.ini"
 	        sh "mv inventory.ini /var/lib/jenkins/workspace/jose/reto-final@2/ansible"	    
 		        }
+		script {
+		  HOST1= sh (script: "$(sed \"2q;d\" temp.txt)", returnStdout:true).trim()
+		  HOST2= sh (script: "$(sed \"3q;d\" temp.txt)", returnStdout:true).trim()	
+	                  }																  
                     }   
 	        }
 	    }	    	    
@@ -74,6 +78,7 @@ pipeline {
                     inventory: 'inventory.ini',
                     playbook: 'playbook_run_1.yml',
                     extraVars: [
+			host1: "${HOST1}",    
 			docker_repo: "${DOCKER_REPO}",
                         build_number: "${BUILD_NUMBER}",
                         job_base_name: "${JOB_BASE_NAME}"
@@ -94,6 +99,7 @@ pipeline {
                     inventory: 'inventory.ini',
                     playbook: 'playbook_run_2.yml',
                     extraVars: [
+			host2: "${HOST2}",    
                         user: "${docker_user}",
                         pass: "${docker_pass}",
 			docker_repo: "${DOCKER_REPO}",    
