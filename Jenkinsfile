@@ -44,7 +44,8 @@ pipeline {
                 -var=\"secret_key=${AWS_SECRET_ACCESS_KEY}\" \
                 --auto-approve
                    """
-		sh "terraform output > inventory.ini"    
+		sh "terraform output > inventory.ini"
+	        sh "mv inventory.ini ~/ansible
 		        }
                     }   
 	        }
