@@ -1,0 +1,4 @@
+- hosts: all
+  tasks:
+    - name: Get key
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
