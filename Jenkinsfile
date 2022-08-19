@@ -12,6 +12,11 @@ pipeline {
         stage ("Build Image 1") {
 		steps {dir("./app/"){
                   sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} /var/lib/jenkins/workspace/jose/reto-final@2/app/"
+		}
+            }
+        }
+	 stage ("Build Image 2") {
+		steps {dir("./web/"){
 		  sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-webserver:${BUILD_NUMBER} /var/lib/jenkins/workspace/jose/reto-final@2/web/"
 		}
             }
