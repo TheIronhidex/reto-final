@@ -59,7 +59,7 @@ pipeline {
 		job_base_name: ${JOB_BASE_NAME}
 		EOL
 		"""
-		sh "sed -n '1,2p;3q' temp2.txt > variables.yml"    
+		sh "sed -n '1,2p;3q' temp2.txt > variable.yml"    
 		sh "cat variable.yml"
 		sh "cat inventory.ini"
 	        }
