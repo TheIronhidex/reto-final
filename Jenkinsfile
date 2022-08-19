@@ -43,21 +43,13 @@ pipeline {
                 -var=\"access_key=${AWS_ACCESS_KEY_ID}\" \
                 -var=\"secret_key=${AWS_SECRET_ACCESS_KEY}\" \
                 --auto-approve
-                   """}
-                    }  
-            script {
-		        IP_EC2=sh (script: "terraform output public_ip", returnStdout:true).trim()
-	                  }
-		    sh "echo ${IP_EC2}"   
+                   """
+		sh "terraform output > inventory.ini"    
+		        }
+                    }   
 	        }
-	    }
-        stage('Input of new IPs') {
-            steps{
-		    sh "echo -e ${IP_EC2}[0]/n${IP_EC2}[1] > inventory.ini"
-		    sh "cat inventory.ini"
-            }
-        }	    
-	    stage('Input of new variables') {
+	    }	    
+	stage('Input of new variables') {
             steps{
                 sh "echo -e build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} >> variable.yml"
 		sh "cat variable.yml"
