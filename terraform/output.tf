@@ -1,8 +1,4 @@
-output "public_ip_app" {
+output "public_ip" {
   description = "The public IP address assigned to the app server, if applicable."
-  value       = try(aws_instance.app_server.public_ip, "")
-}
-output "public_ip_web" {
-  description = "The public IP address assigned to the app server, if applicable."
-  value       = try(aws_instance.web_server.public_ip, "")
+  value       = "${formatlist("%s: %s", aws_instance.app.public_ip, aws_instance.web.public_ip)}"  
 }
