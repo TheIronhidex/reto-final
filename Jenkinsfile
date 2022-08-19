@@ -46,19 +46,21 @@ pipeline {
                    """}
                     }  
             script {
-		        IP_EC2_1=sh (script: "terraform output public_ip_app", returnStdout:true).trim()
-		        IP_EC2_2=sh (script: "terraform output public_ip_web", returnStdout:true).trim()
+		        IP_EC2=sh (script: "terraform output public_ip", returnStdout:true).trim()
 	                  }
+		    sh "echo ${IP_EC2}"   
 	        }
 	    }
         stage('Input of new IPs') {
             steps{
-		    sh "echo -e ${IP_EC2_1}/n${IP_EC2_2} > inventory.ini"
+		    sh "echo -e ${IP_EC2}[0]/n${IP_EC2}[1] > inventory.ini"
+		    sh "cat inventory.ini"
             }
         }	    
 	    stage('Input of new variables') {
             steps{
                 sh "echo -e build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} >> variable.yml"
+		sh "cat variable.yml"
 	        }
         }	
 	stage('Wait 3 minutes') {
