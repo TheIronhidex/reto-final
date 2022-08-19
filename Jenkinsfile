@@ -74,8 +74,9 @@ pipeline {
                     inventory: 'inventory.ini',
                     playbook: 'playbook_run_1.yml',
                     extraVars: [
-                        build_number: ${BUILD_NUMBER},
-                        job_base_name: ${JOB_BASE_NAME}
+			docker_repo: "${DOCKER_REPO}",
+                        build_number: "${BUILD_NUMBER}",
+                        job_base_name: "${JOB_BASE_NAME}"
                     ]
                 )  
 	    }	    
@@ -93,10 +94,11 @@ pipeline {
                     inventory: 'inventory.ini',
                     playbook: 'playbook_run_2.yml',
                     extraVars: [
-                        user: ${docker_user},
-                        pass: ${docker_pass},
-			build_number: ${BUILD_NUMBER},
-                        job_base_name: ${JOB_BASE_NAME}    
+                        user: "${docker_user}",
+                        pass: "${docker_pass}",
+			docker_repo: "${DOCKER_REPO}",    
+			build_number: "${BUILD_NUMBER}",
+                        job_base_name: "${JOB_BASE_NAME}"    
                     ]
                 )
             }
