@@ -46,7 +46,7 @@ pipeline {
                    """
 		sh "terraform output > temp.txt"
 		sh "sed -n '2,3p;4q' temp.txt > inventory.ini"	    
-	        sh "mv inventory.ini /var/lib/jenkins/workspace/jose/reto-final/ansible"	    
+	        sh "mv inventory.ini /var/lib/jenkins/workspace/jose/reto-final@2/ansible"	    
 		        }
                     }   
 	        }
