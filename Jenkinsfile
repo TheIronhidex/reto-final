@@ -10,15 +10,17 @@ pipeline {
     }    
     stages {
         stage ("Build Image 1") {
-            steps {
-                sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} ."
+		steps {dir("./app/"){
+                  sh "docker build -t ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER} ."
+		}
             }
         }
         stage ("Publish Image 1") {
-            steps {
+            steps {dir("./app/"){
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-jose', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                     sh "docker login -u $docker_user -p $docker_pass"
                     sh "docker push ${env.DOCKER_REPO}/${JOB_BASE_NAME}-app:${BUILD_NUMBER}"
+		     }	
                 }
             }
         }
