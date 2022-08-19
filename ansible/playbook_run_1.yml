@@ -1,5 +1,5 @@
 ---
-- hosts: groups['servers'][0]
+- hosts: all
   become: true
   tasks:
   - name: "Pull image for launching server"
