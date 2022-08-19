@@ -12,4 +12,4 @@
     shell: docker push "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
     
   - name: "Launch container image to start app"
-    shell: docker run -d -p80:80 "{{ job_base_name }}"-webserver:"{{ build_number }}"
+    shell: docker run -d -p80:80 "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
