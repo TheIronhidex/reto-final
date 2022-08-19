@@ -44,9 +44,12 @@ pipeline {
                 -var=\"secret_key=${AWS_SECRET_ACCESS_KEY}\" \
                 --auto-approve
                    """
-		sh "terraform output > inventory.ini"
-	        sh "cat inventory.ini"
-	        sh "mv inventory.ini ~/ansible"
+		script {
+		  IP_EC2 = sh (script: "terraform output public_ip", returnStdout:true).trim()
+	                  }
+		sh "echo ${IP_EC2} > inventory.ini"
+		sh "cat inventory.ini"
+	        sh "mv inventory.ini ~/ansible"	    
 		        }
                     }   
 	        }
