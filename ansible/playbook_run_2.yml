@@ -2,27 +2,15 @@
 - hosts: groups['servers'][1]
   become: true
   tasks:
-  - name: Log into DockerHub
-    docker_login:
-      username: "{{ docker_user }}"
-      password: "{{ docker_pass }}"
-      email: ironhidex1@gmail.com
 
-  - name: Build image 2 and push it to a private repo
-    docker_image:
-      path: ./ansible/dockerfile
-      name: "{{ docker_repo }}"/"{{ job_base_name }}"-webserver
-      tag: "{{ build_number }}"
-      push: yes
-
-  - name: Pull image for launching server
-    docker_image:
-      image: "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
-      
-  - name: Launch Container Image to Start Web Server
-    docker_container:
-      name: webserver
-      image: "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
-      state: started
-      ports:
-      - "80:80"
+  - name: "Log into DockerHub"
+    shell: docker login -u "{{ docker_user }}" -p "{{ docker_pass }}"
+    
+  - name: "Build image 2"
+    shell: docker build -t "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
+    
+  - name: "Push image 2 to a private repo"
+    shell: docker push "{{ docker_repo }}"/"{{ job_base_name }}"-webserver:"{{ build_number }}"
+    
+  - name: "Launch container image to start app"
+    shell: docker run -d -p80:80 "{{ job_base_name }}"-webserver:"{{ build_number }}"
