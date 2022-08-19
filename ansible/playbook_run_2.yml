@@ -1,5 +1,5 @@
 ---
-- hosts: groups['all'][1]
+- hosts: groups['servers'][1]
   become: true
 
   - name: Log into DockerHub
