@@ -61,17 +61,19 @@ pipeline {
             }
         }
 	    stage ("Ansible install docker") {
-            steps {
+            steps {dir("./ansible/") {
                 ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_docker.yml'
             }
+	  }	   
         }
 	stage ("Ansible run image in instance 1") {
-            steps {
+            steps {dir("./ansible/") {
                 ansiblePlaybook become: true, colorized: true, extras: '-v', disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_1.yml'
             }
+	  }
         }             
 	stage ("Ansible run image in instance 2") {
-            steps {
+            steps {dir("./ansible/") {
                withCredentials([usernamePassword(credentialsId: 'docker-hub-jose', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                  ansiblePlaybook(
                     become: true,
@@ -88,6 +90,7 @@ pipeline {
                     ]
                 )
             }
+	  }	    
         }
     }		    
     	stage('Destroy infrastructure?') {
@@ -96,11 +99,12 @@ pipeline {
             }
         }        	    
 	stage('terraform destroy') {
-            steps{
+            steps{dir("./terraform/") {
 		withCredentials([
 		    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh "terraform destroy --auto-approve"
 		    }
+	          }
 	        }
 	   }
 	    
