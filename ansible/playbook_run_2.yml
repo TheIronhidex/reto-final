@@ -1,4 +1,4 @@
-- hosts: servers
+- hosts: host2
   become: true
   tasks:
 
