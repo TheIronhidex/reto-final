@@ -45,6 +45,7 @@ pipeline {
                 --auto-approve
                    """
 		sh "terraform output > inventory.ini"
+	        sh "cat inventory.ini"
 	        sh "mv inventory.ini ~/ansible"
 		        }
                     }   
