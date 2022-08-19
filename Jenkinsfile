@@ -45,8 +45,10 @@ pipeline {
                 --auto-approve
                    """
 		sh "terraform output > inventory.ini"
-		sh "sed -i '1d' inventory.ini"
-		sh "sed -i '$d' inventory.ini"	    
+		sh """#!/bin/bash
+		sed -i '1d' inventory.ini
+		sed -i '$d' inventory.ini
+	        """
 	        sh "mv inventory.ini ~/ansible"	    
 		        }
                     }   
