@@ -50,21 +50,7 @@ pipeline {
 		        }
                     }   
 	        }
-	    }	    
-	stage('Input of new variables') {
-            steps{dir("./ansible/") {
-		sh """
-		cat > temp2.txt <<EOL
-		build_number: ${BUILD_NUMBER}
-		job_base_name: ${JOB_BASE_NAME}
-		EOL
-		"""
-		sh "sed -n '1,2p;3q' temp2.txt > variable.yml"    
-		sh "cat variable.yml"
-		sh "cat inventory.ini"
-	        }
-	    }
-        }	    
+	    }	    	    
 	stage('Wait 30 seconds') {
             steps {
                 sleep time:2, unit: 'SECONDS'
@@ -78,10 +64,22 @@ pipeline {
         }
 	stage ("Ansible run image in instance 1") {
             steps {dir("./ansible/") {
-                ansiblePlaybook become: true, colorized: true, disableHostKeyChecking: true, credentialsId: 'jose-ssh', installation: 'ansible210', inventory: 'inventory.ini', playbook: 'playbook_run_1.yml'
-            }
-	  }
-        }             
+                 ansiblePlaybook(
+                    become: true,
+                    colorized: true,
+                    disableHostKeyChecking: true,
+                    credentialsId: 'jose-ssh',
+                    installation: 'ansible210',
+                    inventory: 'inventory.ini',
+                    playbook: 'playbook_run_1.yml',
+                    extraVars: [
+                        build_number: ${BUILD_NUMBER},
+                        job_base_name: ${JOB_BASE_NAME}
+                    ]
+                )  
+	    }	    
+        }
+    }		              
 	stage ("Ansible run image in instance 2") {
             steps {dir("./ansible/") {
                withCredentials([usernamePassword(credentialsId: 'docker-hub-jose', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
