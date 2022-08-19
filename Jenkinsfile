@@ -39,7 +39,7 @@ pipeline {
 	            withCredentials([
 		            aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) { dir("./terraform/") {               
                 sh """
-		        terraform apply -var=\"region=${env.REGION}\" \
+		terraform apply -var=\"region=${env.REGION}\" \
                 -var=\"access_key=${AWS_ACCESS_KEY_ID}\" \
                 -var=\"secret_key=${AWS_SECRET_ACCESS_KEY}\" \
                 --auto-approve
@@ -80,8 +80,8 @@ pipeline {
                     ]
                 )  
 	    }	    
-        }
-    }		              
+          }
+        }		              
 	stage ("Ansible run image in instance 2") {
             steps {dir("./ansible/") {
                withCredentials([usernamePassword(credentialsId: 'docker-hub-jose', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
@@ -104,21 +104,21 @@ pipeline {
             }
 	  }	    
         }
-    }		    
+      }		    
     	stage('Destroy infrastructure?') {
             steps{
                 input "Proceed destroying the infrastructure?"
             }
         }        	    
 	stage('terraform destroy') {
-            steps{dir("./terraform/") {
+            steps{
 		withCredentials([
-		    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+		    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jose', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {dir("./terraform/") {
                     sh "terraform destroy --auto-approve"
 		    }
-	          }
-	        }
-	   }
+	           }
+	         }
+	       }
 	    
 	    
     }
