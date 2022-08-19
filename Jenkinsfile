@@ -51,7 +51,7 @@ pipeline {
 	    }	    
 	stage('Input of new variables') {
             steps{
-                sh "echo -e build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} >> variable.yml"
+                sh "echo build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} > variable.yml"
 		sh "cat variable.yml"
 	        }
         }	
