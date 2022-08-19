@@ -45,21 +45,27 @@ pipeline {
                 --auto-approve
                    """
 		sh "terraform output > inventory.ini"
-		sh """#!/bin/bash
-		sed -i '1d' inventory.ini
-		sed -i '$d' inventory.ini
-	        """
 	        sh "mv inventory.ini ~/ansible"	    
 		        }
                     }   
 	        }
 	    }	    
 	stage('Input of new variables') {
-            steps{
+            steps{dir("./ansible/") {
                 sh "echo build_number: ${BUILD_NUMBER}/njob_base_name: ${JOB_BASE_NAME} > variable.yml"
 		sh "cat variable.yml"
 	        }
-        }	
+	    }
+        }
+	stage('Format inventory') {
+            steps{dir("./ansible/") {
+		sh """#!/bin/bash
+		sed -i '1d' inventory.ini
+		sed -i '$d' inventory.ini
+	        """
+	        }
+	    }
+        }	    
 	stage('Wait 3 minutes') {
             steps {
                 sleep time:2, unit: 'SECONDS'
