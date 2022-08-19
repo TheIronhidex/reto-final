@@ -2,9 +2,6 @@ variable "region" {
   description = "region for launching AWS resources"
   default = "eu-west-3"
 }
-variable "instance_count" {
-  default = "2"
-}
 variable "access_key" {
   description = "AWS access key credential"
   default = "access_key"
