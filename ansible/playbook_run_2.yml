@@ -1,4 +1,4 @@
-- hosts: host2
+- hosts: "{{ host2 }}"
   become: true
   tasks:
 
