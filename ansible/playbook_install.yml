@@ -18,7 +18,7 @@
         state: latest
         
     - name: "Get GPG"
-      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+      shell: wget https://download.docker.com/linux/ubuntu/gpg && apt-key add gpg
       
     - name: "Add Repository"
       shell:  add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable\"
